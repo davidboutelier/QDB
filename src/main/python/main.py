@@ -11,12 +11,12 @@ class MainWindow(QWidget):
         super().__init__()
 
         self.tabs = QTabWidget()
-        self.project_tab = QWidget()
+        self.companies_tab = QWidget()
         self.lines_tab = QWidget()
         self.points_tab = QWidget()
         self.foldmap_tab = QWidget()
 
-        self.tabs.addTab(self.project_tab,"Companies")
+        self.tabs.addTab(self.companies_tab,"Companies")
 
 
         self.statusbar = QStatusBar(self)
