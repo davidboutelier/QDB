@@ -160,8 +160,7 @@ class MainWindow(QWidget):
         self.associated_contacts_list.clear()
         if len(selected) == 1:
             for ix in selected.indexes():
-                
-                selected_company_id = str(ix.row()+1)
+                selected_company_id = str(self.companies_view.currentIndex().siblingAtColumn(0).data())
 
                 print(selected_company_id)
 
