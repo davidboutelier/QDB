@@ -29,8 +29,6 @@ company_filter = False
 
 # create the Main Window as a base widget
 
-
-
 class MainWindow(QWidget):
     
     def __init__(self):
@@ -58,12 +56,12 @@ class MainWindow(QWidget):
         contacts_tab.setLayout(contacts_tab_layout)
         tabs.addTab(contacts_tab,"Contacts")
 
-        #companies_left_widget = QWidget()
-        #companies_left_widget.setMaximumWidth(300)
-        #companies_left_widget.setMinimumWidth(200)
-        #companies_left_layout = QVBoxLayout()
-        #companies_left_widget.setLayout(companies_left_layout)
-        #companies_tab_layout.addWidget(companies_left_widget)
+        companies_left_widget = QWidget()
+        companies_left_widget.setMaximumWidth(300)
+        companies_left_widget.setMinimumWidth(200)
+        companies_left_layout = QVBoxLayout()
+        companies_left_widget.setLayout(companies_left_layout)
+        companies_tab_layout.addWidget(companies_left_widget)
 
         companies_center_widget = QWidget()
         companies_center_widget.setMinimumWidth(200)
@@ -78,10 +76,10 @@ class MainWindow(QWidget):
         companies_right_widget.setLayout(companies_right_layout)
         companies_tab_layout.addWidget(companies_right_widget)
 
-        #companies_topleft_groupbox = QGroupBox("Top left")
-        #companies_bottomleft_groupbox = QGroupBox("Bottom left")
-        #companies_left_layout.addWidget(companies_topleft_groupbox)
-        #companies_left_layout.addWidget(companies_bottomleft_groupbox)
+        companies_topleft_groupbox = QGroupBox("Top left")
+        companies_bottomleft_groupbox = QGroupBox("Bottom left")
+        companies_left_layout.addWidget(companies_topleft_groupbox)
+        companies_left_layout.addWidget(companies_bottomleft_groupbox)
 
         companies_topcenter_groupbox = QGroupBox("Top center")
         companies_bottomcenter_groupbox = QGroupBox("Bottom center")
@@ -155,7 +153,6 @@ class MainWindow(QWidget):
         except :
             print(f"The error occurred")
 
-
     def on_companies_selectionChanged(self, selected):
         self.associated_contacts_list.clear()
         if len(selected) == 1:
@@ -163,7 +160,6 @@ class MainWindow(QWidget):
                 selected_company_id = str(self.companies_view.currentIndex().siblingAtColumn(0).data())
 
                 print(selected_company_id)
-
                 query = QSqlQuery("SELECT firstname, lastname FROM contacts WHERE company_ID ='"+selected_company_id+"'")
 
                 while query.next():
@@ -173,16 +169,6 @@ class MainWindow(QWidget):
                     
                     print(first, last)
                     self.associated_contacts_list.addItem(fullname)
-                
-                
-                
-
-
-
-
-
-
-
 
 
     def createConnection(self):
@@ -192,10 +178,6 @@ class MainWindow(QWidget):
             QMessageBox.critical(None, "Error!","Database Error: %s" % con.lastError().databaseText(),)
             return False
         return True
-
-
-
-
 
 if __name__ == '__main__':
     appctxt = ApplicationContext()       # 1. Instantiate ApplicationContext
