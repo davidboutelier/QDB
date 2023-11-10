@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>244</width>
-    <height>200</height>
+    <height>269</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -98,6 +98,13 @@
     <widget class="QPushButton" name="forgot_password_button">
      <property name="text">
       <string>Forgot Password</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="register_button">
+     <property name="text">
+      <string>Register</string>
      </property>
     </widget>
    </item>
