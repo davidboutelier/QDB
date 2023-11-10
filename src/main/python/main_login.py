@@ -37,6 +37,13 @@ class MainWindow(QWidget):
         loadUi(os.path.join('src','main','python','ui','main.ui' ), self)  
         self.setWindowTitle('QDB ')
 
+        self.users_button.clicked.connect(self.manage_users)
+
+    def manage_users(self):
+        # show the change password window
+        all_users_window.show()
+
+
 class Register(QWidget):
     def __init__(self, parent=None):
         super(Register,self).__init__(parent)
@@ -178,24 +185,33 @@ class login(QWidget):
                 hash = row[6]
                 salt = row[7]
                 role = row[8]
-                salted_password = provided_password+str(salt)
-                ph = PasswordHasher()
-                try: 
-                    ph.verify(hash, salted_password)
-                    window.user_label.setText(first+' '+last+' is logged in')
-                    if role == 'administrator':
-                        window.users_button.setEnabled(True)
-                    window.showMaximized()
-                    window.show()
-                    self.hide()
 
-                except:
+                if role == 'user' or role == 'administrator':
+                    salted_password = provided_password+str(salt)
+                    ph = PasswordHasher()
+                    try: 
+                        ph.verify(hash, salted_password)
+                        window.user_label.setText(first+' '+last+' is logged in')
+                        if role == 'administrator':
+                            window.users_button.setEnabled(True)
+                        window.showMaximized()
+                        window.show()
+                        self.hide()
+
+                    except:
+                        msg = QMessageBox()
+                        msg.setIcon(QMessageBox.Critical)
+                        msg.setText("Error")
+                        msg.setInformativeText('Password is incorrect')
+                        msg.setWindowTitle("Error")
+                        msg.exec_() 
+                else:
                     msg = QMessageBox()
                     msg.setIcon(QMessageBox.Critical)
                     msg.setText("Error")
-                    msg.setInformativeText('Password is incorrect')
+                    msg.setInformativeText('User does not have an approved role yet')
                     msg.setWindowTitle("Error")
-                    msg.exec_() 
+                    msg.exec_()
             elif len(rows) == 0:
                 msg = QMessageBox()
                 msg.setIcon(QMessageBox.Critical)
@@ -235,7 +251,14 @@ class ChangePassword(QWidget):
         loadUi(os.path.join('src','main','python','ui','change_password.ui' ), self)  
         self.setWindowTitle('QDB change password')
         
-
+class AllUsers(QWidget):
+    def __init__(self, parent=None):
+        super(AllUsers,self).__init__(parent)
+        self.setupUI_all_users()
+    
+    def setupUI_all_users(self):  
+        loadUi(os.path.join('src','main','python','ui','all_users.ui' ), self)  
+        self.setWindowTitle('QDB user management')
     
 
 if __name__ == '__main__':
@@ -250,8 +273,8 @@ if __name__ == '__main__':
 
     window = MainWindow()
     change_password_window = ChangePassword()
-
     register_window = Register()
+    all_users_window = AllUsers()
     #
 
     exit_code = appctxt.app.exec()      # 2. Invoke appctxt.app.exec()
